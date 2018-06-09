@@ -26,14 +26,11 @@
 
 #include <sys/cdefs.h>
 #include <sys/console.h>
+#include <machine/frame.h>
+#include <machine/cpuregs.h>
 #include <machine/cpufunc.h>
 
-#include <mips/microchip/pic32.h>
-#include <mips/microchip/pic32mz.h>
-#include <mips/microchip/pic32_uart.h>
-#include <mips/microchip/pic32_pps.h>
-#include <mips/microchip/pic32_port.h>
-#include <mips/microchip/pic32_syscfg.h>
+#include <mips/microchip/pic32mzda.h>
 
 #define	CPU_FREQ	200000000
 void app_init(void);
@@ -84,8 +81,8 @@ app_ports_init(struct pic32_port_softc *sc)
 	pic32_port_ansel(&port_sc, PORT_B, 14, 1);
 	pic32_port_ansel(&port_sc, PORT_B, 15, 1);
 
-	pic32_pps_write(&pps_sc, PPS_U2RXR, RPB0);
-	pic32_pps_write(&pps_sc, PPS_RPG9R, 2); /* U2TX */
+	pic32_pps_write(&pps_sc, PPS_U2RXR, IS2_RPB0);
+	pic32_pps_write(&pps_sc, PPS_RPG9R, OS3_U2TX);
 }
 
 void
