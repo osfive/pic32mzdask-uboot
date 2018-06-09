@@ -11,7 +11,6 @@ UART baud rate: 115200
     $ git clone --recursive https://github.com/osfive/pic32mzdask-uboot
     $ cd pic32mzdask-uboot
     $ bmake
-    $ srec_cat pic32mzdask-uboot.srec /path/to/u-boot.srec > flash.srec
 
 ### Build under FreeBSD
 
