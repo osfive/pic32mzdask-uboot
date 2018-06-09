@@ -5,15 +5,13 @@ This application loads U-Boot on PIC32MZDA Starter Kit
 
 UART baud rate: 115200
 
-1. Build U-Boot
-2. Build this application
-
 ### Build under Linux
 
     $ export CROSS_COMPILE=mips-linux-gnu-
     $ git clone --recursive https://github.com/osfive/pic32mzdask-uboot
     $ cd pic32mzdask-uboot
     $ bmake
+    $ srec_cat pic32mzdask-uboot.srec /path/to/u-boot.srec > flash.srec
 
 ### Build under FreeBSD
 
@@ -22,5 +20,5 @@ UART baud rate: 115200
     $ cd pic32mzdask-uboot
     $ make
 
-3. Assemble both into a single file
+### Assemble this app and U-Boot to a single file
     $ srec_cat pic32mzdask-uboot.srec /path/to/u-boot.srec > flash.srec
