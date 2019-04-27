@@ -1,21 +1,18 @@
 APP =		pic32mzdask-uboot
-ARCH =		mips
+MACHINE =	mips
 
 CC =		${CROSS_COMPILE}gcc
 LD =		${CROSS_COMPILE}ld
 OBJCOPY =	${CROSS_COMPILE}objcopy
 
-LDSCRIPT =	${.CURDIR}/ldscript
+OBJDIR =	obj
+LDSCRIPT =	${CURDIR}/ldscript
 
 OBJECTS =	main.o						\
 		osfive/sys/mips/microchip/pic32_uart.o		\
 		osfive/sys/mips/microchip/pic32_port.o		\
 		osfive/sys/mips/microchip/pic32_pps.o		\
 		osfive/sys/mips/microchip/pic32_syscfg.o	\
-		osfive/sys/kern/subr_prf.o			\
-		osfive/sys/kern/subr_console.o			\
-		osfive/lib/libc/stdio/printf.o			\
-		osfive/lib/libc/string/strlen.o			\
 		start.o
 
 CFLAGS =	-march=mips32r2 -EL -msoft-float -nostdlib	\
@@ -29,13 +26,15 @@ CFLAGS =	-march=mips32r2 -EL -msoft-float -nostdlib	\
 		-Wpointer-arith -Winline -Wcast-qual -Wundef	\
 		-Wno-pointer-sign -Wno-format			\
 		-Wmissing-include-dirs -Wno-unknown-pragmas	\
-		-Werror
+		-Werror -D__mips_o32
 
-all: compile link srec
+KERNEL =
+LIBRARIES = libc libc_quad
+
+all:	${OBJDIR}/${APP}.srec
 
 clean:
-	rm -f ${OBJECTS:M*} ${APP}.elf ${APP}.srec
+	@rm -f ${OBJECTS} ${OBJDIR}/${APP}.srec
 
-.include "osfive/mk/user.mk"
-.include "osfive/mk/compile.mk"
-.include "osfive/mk/link.mk"
+include osfive/lib/libc/Makefile.inc
+include osfive/mk/default.mk
