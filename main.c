@@ -25,7 +25,10 @@
  */
 
 #include <sys/cdefs.h>
+#include <sys/systm.h>
 #include <sys/console.h>
+#include <sys/thread.h>
+
 #include <machine/frame.h>
 #include <machine/cpuregs.h>
 #include <machine/cpufunc.h>
@@ -88,6 +91,10 @@ app_ports_init(struct pic32_port_softc *sc)
 void
 app_init(void)
 {
+
+	zero_bss();
+	relocate_data();
+	md_init();
 
 	pic32_port_init(&port_sc, PORTS_BASE);
 	pic32_pps_init(&pps_sc, PPS_BASE);
